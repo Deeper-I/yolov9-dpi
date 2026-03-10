@@ -359,6 +359,7 @@ DEEPER-I is licensed under the GNU General Public License v3.0 (GPL-3.0). See [L
 - All modifications and additions to the original YOLOv9 code are also subject to GPL-3.0
 - The DDesignerAPI integration and TACHY-Compiler components follow their respective licenses
 - You can download the add-on executable file from the address below. [https://gofile.me/5NFjK/PXXLhuIqj]
+- Move the downloaded file to the **optional** folder.
 
 ## Acknowledgements
 
