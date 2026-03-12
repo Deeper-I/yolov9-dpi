@@ -1,0 +1,23 @@
+name: yolov9_dpi
+channels:
+  - pytorch
+  - nvidia
+  - defaults
+dependencies:
+  - python=3.8
+  - pytorch=1.13.1
+  - torchvision=0.14.1
+  - pytorch-cuda=11.7
+  - pip
+  - pip:
+      - numpy==1.24.4
+      - opencv-python
+      - pillow==9.5.0
+      - tqdm
+      - pyyaml
+      - matplotlib
+      - seaborn
+      - DDesignerAPI
+      - ipython
+      - psutil
+      - tensorboard

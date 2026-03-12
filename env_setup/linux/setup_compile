@@ -1,0 +1,8 @@
+cp ../../models ../../models_compile -rf 
+cp ../../models_compile/yolo_compile.py ../../models_compile/yolo.py -f
+cd ../../TACHY-Compiler/platform_converter/utils/yolov9/
+ln -s ../../../../utils utils
+ln -s ../../../../models_compile models
+cd ../../../compiler/utils
+ln -s ../../../optional/block_4bit.out
+ln -s ../../../optional/fc.out

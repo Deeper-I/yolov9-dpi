@@ -9,3 +9,4 @@ pip install seaborn
 pip install tqdm
 pip install pyyaml
 pip install psutil
+pip install DDesignerAPI

@@ -202,7 +202,8 @@ class TachyBlock(LAYERtoBLOCK):
         i, o = node["params"][0].shape
         # Path
         prefix = "{}_".format(node["name"])
-        exe_path = os.path.join(self.script_dir, "fc.out")
+        _ext = ".exe" if sys.platform == "win32" else ".out"
+        exe_path = os.path.join(self.script_dir, "fc" + _ext)
         kernel_path = os.path.join(self.work_dir, prefix + "kernel.bin")
         weight_path = os.path.join(self.work_dir, prefix + "weight.bin")
         bias_path = os.path.join(self.work_dir, prefix + "bias.bin")
@@ -230,7 +231,8 @@ class TachyBlock(LAYERtoBLOCK):
 
         # Path
         prefix = "{}_".format(node["name"])
-        exe_path = os.path.join(self.script_dir, "block_4bit.out")
+        _ext = ".exe" if sys.platform == "win32" else ".out"
+        exe_path = os.path.join(self.script_dir, "block_4bit" + _ext)
         kernel_path = os.path.join(self.work_dir, prefix + "kernel.bin")
         weight_path = os.path.join(self.work_dir, prefix + "weight.bin")
         bias_path = os.path.join(self.work_dir, prefix + "bias.bin")
