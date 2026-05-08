@@ -1,0 +1,8 @@
+## Ignore files ###
+*.pyc
+*.swp
+*.npz
+
+## Ignore directories ###
+__pycache__/
+

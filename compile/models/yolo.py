@@ -1,26 +1,3 @@
-"""
-This file is part of DEEPER-I, a modified YOLOv9 implementation.
-
-Original YOLOv9: https://github.com/WongKinYiu/yolov9
-DEEPER-I includes DDesignerAPI integration for advanced optimization training.
-
-Copyright (C) Original YOLOv9 authors
-Copyright (C) DEEPER-I
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-"""
-
 import argparse
 import os
 import platform
@@ -176,18 +153,11 @@ class DDetect(nn.Module):
 
     def forward(self, x):
         shape = x[0].shape  # BCHW
+        logit_list = []
         for i in range(self.nl):
-            x[i] = torch.cat((self.cv2[i](x[i]), self.cv3[i](x[i])), 1)
-        if self.training:
-            return x
-        elif self.dynamic or self.shape != shape:
-            self.anchors, self.strides = (x.transpose(0, 1) for x in make_anchors(x, self.stride, 0.5))
-            self.shape = shape
-
-        box, cls = torch.cat([xi.view(shape[0], self.no, -1) for xi in x], 2).split((self.reg_max * 4, self.nc), 1)
-        dbox = dist2bbox(self.dfl(box), self.anchors.unsqueeze(0), xywh=True, dim=1) * self.strides
-        y = torch.cat((dbox, cls.sigmoid()), 1)
-        return y if self.export else (y, x)
+            logit_list.append(self.cv2[i](x[i]))
+            logit_list.append(self.cv3[i](x[i]))
+        return logit_list
 
     def bias_init(self):
         # Initialize Detect() biases, WARNING: requires stride availability
