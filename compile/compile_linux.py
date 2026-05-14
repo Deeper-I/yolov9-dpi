@@ -10,8 +10,8 @@ import argparse
 #######################################################
 ################### User Settings #####################
 #######################################################
-PRE_PARAM_DIR = "../runs/train/bsnet-t/weights"
-OPT_PARAM_DIR = "../runs/train/bsnet-t-o/weights"
+PRE_PARAM_DIR = "../runs/train/bsnet-t6/weights"
+OPT_PARAM_DIR = "../runs/train/bsnet-t-o6/weights"
 # OPT_PARAM_DIR = "../runs/train/bsnet-t-op/weights"
 
 ONNX_INPUT_SHAPE = "1 3 256 416"    # (B,C,H,W)

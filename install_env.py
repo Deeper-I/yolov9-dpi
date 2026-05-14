@@ -1,6 +1,10 @@
 """
-install.py — Cross-platform environment setup
-==============================================
+install_env.py — Cross-platform environment setup
+=====================================================
+Changes from (install_env.py):
+  - Linux: setup_compile step removed (no longer needed)  [유지]
+  - Windows: setup_compile.py 수정
+
 Usage:
   python install_env.py
 
@@ -10,7 +14,6 @@ Project structure:
   └── env_setup/
       ├── linux/
       │   ├── install
-      │   ├── setup_compile
       │   └── requirements.txt
       └── window/
           ├── environment_gui.yml   (contains: name: yolov9_dpi)
@@ -107,20 +110,18 @@ def get_env_name_from_yml(yml_path):
 
 
 # ─────────────────────────────────────────────
-# Linux install
+# Linux install  (setup_compile 제거)
 # ─────────────────────────────────────────────
 def install_linux(env_name):
     print("\n[Linux] Starting installation...")
 
     install_script = LINUX_DIR / "install"
-    setup_script   = LINUX_DIR / "setup_compile"
     requirements   = LINUX_DIR / "requirements.txt"
 
-    for f in [install_script, setup_script]:
-        if not f.exists():
-            print(f"❌ Not found: {f}")
-            sys.exit(1)
-        f.chmod(0o755)
+    if not install_script.exists():
+        print(f"❌ Not found: {install_script}")
+        sys.exit(1)
+    install_script.chmod(0o755)
 
     conda_run(env_name, ["bash", str(install_script)],
               desc=f"Running {install_script}", cwd=LINUX_DIR)
@@ -131,25 +132,20 @@ def install_linux(env_name):
     else:
         print(f"  ⚠ requirements.txt not found — skipping ({requirements})")
 
-    conda_run(env_name,
-              ["bash", "-c", f"bash {str(setup_script)} ; exit 0"],
-              desc=f"Running {setup_script}", cwd=LINUX_DIR)
-
 
 # ─────────────────────────────────────────────
-# Windows install
+# Windows install  (setup_compile 수정)
 # ─────────────────────────────────────────────
 def install_windows(env_name):
     print("\n[Windows] Starting installation...")
 
     yml          = WINDOW_DIR / "environment_gui.yml"
-    setup_script = WINDOW_DIR / "setup_compile.py"
+    setup_script = WINDOW_DIR / "setup_compile.py" 
     requirements = WINDOW_DIR / "requirements.txt"
 
-    for f in [yml, setup_script]:
-        if not f.exists():
-            print(f"❌ Not found: {f}")
-            sys.exit(1)
+    if not yml.exists():
+        print(f"❌ Not found: {yml}")
+        sys.exit(1)
 
     run([CONDA, "env", "update", "-n", env_name, "-f", str(yml)],
         desc="conda env update -f environment_gui.yml")
@@ -160,8 +156,11 @@ def install_windows(env_name):
     else:
         print(f"  ⚠ requirements.txt not found — skipping ({requirements})")
 
-    conda_run(env_name, ["python", str(setup_script)],
-              desc=f"Running {setup_script}")
+    if not setup_script.exists():
+        print(f"  ⚠ setup_compile.py not found — skipping utils copy ({setup_script})")
+    else:
+        conda_run(env_name, ["python", str(setup_script)],
+                  desc=f"Running {setup_script}", cwd=ROOT)
 
 
 # ─────────────────────────────────────────────
@@ -169,7 +168,7 @@ def install_windows(env_name):
 # ─────────────────────────────────────────────
 def main():
     print("=" * 55)
-    print("  BSNet Eval — Environment Installer")
+    print("  BSNet Eval — Environment Installer  ")
     print(f"  Platform : {OS}")
     print("=" * 55)
 

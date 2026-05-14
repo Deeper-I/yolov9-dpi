@@ -10,3 +10,4 @@ pip install tqdm
 pip install pyyaml
 pip install psutil
 pip install DDesignerAPI
+pip install TACHY-Compiler

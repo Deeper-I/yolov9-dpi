@@ -19,6 +19,7 @@ dependencies:
       - matplotlib
       - seaborn
       - DDesignerAPI
+      - TACHY-Compiler
       - ipython
       - psutil
       - tensorboard
